@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ item?.id ? '编辑BOM项' : '添加BOM项' }}</h5>
+  <button type="button" class="close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="componentProductId">组件产品ID</label>
+          <input type="text" id="componentProductId" class="form-control" formControlName="componentProductId" />
+          <span *ngIf="form.get('componentProductId').invalid && form.get('componentProductId').touched" class="text-danger">
+            组件产品ID是必填项
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="componentProductCode">组件编码</label>
+          <input type="text" id="componentProductCode" class="form-control" formControlName="componentProductCode" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="quantity">用量</label>
+          <input type="number" id="quantity" class="form-control" formControlName="quantity" step="0.0001" />
+          <span *ngIf="form.get('quantity').invalid && form.get('quantity').touched" class="text-danger">
+            用量必须大于0
+          </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="scrapRate">损耗率</label>
+          <input type="number" id="scrapRate" class="form-control" formControlName="scrapRate" step="0.0001" />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="unit">单位</label>
+          <input type="text" id="unit" class="form-control" formControlName="unit" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="sequence">排序号</label>
+          <input type="number" id="sequence" class="form-control" formControlName="sequence" />
+          <span *ngIf="form.get('sequence').invalid && form.get('sequence').touched" class="text-danger">
+            排序号是必填项
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="parentItemId">父项ID（可选）</label>
+          <input type="text" id="parentItemId" class="form-control" formControlName="parentItemId" />
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">取消</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+        <i *ngIf="isSubmitting" class="fa fa-spinner fa-spin mr-1"></i>
+        {{ isSubmitting ? '保存中...' : '保存' }}
+      </button>
+    </div>
+  </form>
+</div>

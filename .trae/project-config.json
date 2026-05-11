@@ -1,0 +1,17 @@
+{
+  "name": "ABPDemo-Angular",
+  "description": "ABP Framework Angular Application",
+  "framework": "ABP Angular 8.3.4",
+  "bestPractices": {
+    "enabled": true,
+    "skill": "abp-angular-best-practices",
+    "rules": [
+      "use-message-service",
+      "use-toaster-service",
+      "use-generated-proxy",
+      "form-validation",
+      "error-handling"
+    ]
+  },
+  "autoApplyBestPractices": true
+}

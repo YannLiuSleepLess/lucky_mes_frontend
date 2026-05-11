@@ -1,0 +1,100 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">工程变更管理</div>
+    <button class="btn btn-primary" (click)="createChange()">
+      <i class="fa fa-plus mr-1"></i>
+      创建变更单
+    </button>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>变更单号</th>
+          <th>标题</th>
+          <th>类型</th>
+          <th>优先级</th>
+          <th>状态</th>
+          <th>审批人</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let change of data.items">
+          <td>{{ change.ecnNo }}</td>
+          <td>{{ change.title }}</td>
+          <td>
+            <ng-container *ngFor="let opt of changeTypeOptions">
+              <span *ngIf="opt.value === change.type">{{ '::Enum:ChangeType.' + opt.key | abpLocalization }}</span>
+            </ng-container>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="getPriorityClass(change.priority)">
+              <ng-container *ngFor="let opt of priorityOptions">
+                <span *ngIf="opt.value === change.priority">{{ '::Enum:Priority.' + opt.key | abpLocalization }}</span>
+              </ng-container>
+            </span>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="getStatusClass(change.status)">
+              <ng-container *ngFor="let opt of ecnStatusOptions">
+                <span *ngIf="opt.value === change.status">{{ '::Enum:EcnStatus.' + opt.key | abpLocalization }}</span>
+              </ng-container>
+            </span>
+          </td>
+          <td>{{ change.approvedBy || '-' }}</td>
+          <td>
+                    <button class="btn btn-sm btn-primary mr-1" (click)="editChange(change.id)" *ngIf="change.status === 1">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-secondary mr-1"
+                      *ngIf="change.status === 1"
+                      (click)="submitForReview(change.id, change.ecnNo)"
+                    >
+                      <i class="fa fa-send"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-success mr-1"
+                      *ngIf="change.status === 2"
+                      (click)="approveChange(change.id, change.ecnNo)"
+                    >
+                      <i class="fa fa-check"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-info mr-1"
+                      *ngIf="change.status === 3"
+                      (click)="executeChange(change.id, change.ecnNo)"
+                    >
+                      <i class="fa fa-play"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-danger"
+                      *ngIf="change.status === 1"
+                      (click)="deleteChange(change.id, change.ecnNo)"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav *ngIf="data.totalCount > 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mt-2 text-muted">
+        显示 {{ list.page * list.maxResultCount + 1 }} -
+        {{ Math.min((list.page + 1) * list.maxResultCount, data.totalCount) }} 条，共 {{ data.totalCount }} 条
+      </div>
+      <ngb-pagination
+        [collectionSize]="data.totalCount"
+        [page]="list.page + 1"
+        (pageChange)="onPageChange($event)"
+        [pageSize]="list.maxResultCount"
+        [maxSize]="10"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </nav>
+  </div>
+</div>

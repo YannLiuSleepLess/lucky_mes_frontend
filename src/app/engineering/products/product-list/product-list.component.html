@@ -1,0 +1,87 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">产品管理</div>
+    <button class="btn btn-primary" (click)="createProduct()">
+      <i class="fa fa-plus mr-1"></i>
+      添加产品
+    </button>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>产品编码</th>
+          <th>产品名称</th>
+          <th>产品类型</th>
+          <th>规格</th>
+          <th>材质</th>
+          <th>单位</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of data.items">
+          <td>{{ product.productCode }}</td>
+          <td>{{ product.productName }}</td>
+          <td>
+            <ng-container *ngFor="let opt of productTypeOptions">
+              <span *ngIf="opt.value === product.type">{{ '::Enum:ProductType.' + opt.key | abpLocalization }}</span>
+            </ng-container>
+          </td>
+          <td>
+            <span *ngIf="product.specification?.length">长: {{ product.specification.length }} </span>
+            <span *ngIf="product.specification?.width">宽: {{ product.specification.width }} </span>
+            <span *ngIf="product.specification?.height">高: {{ product.specification.height }}</span>
+          </td>
+          <td>{{ product.material || '-' }}</td>
+          <td>{{ product.unit || '-' }}</td>
+          <td>
+            <span
+              [class]="product.isActive ? 'badge badge-success' : 'badge badge-danger'"
+            >
+              {{ product.isActive ? '启用' : '禁用' }}
+            </span>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-info mr-1"
+              (click)="viewProduct(product.id)"
+            >
+              <i class="fa fa-eye"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-primary mr-1"
+              (click)="editProduct(product.id)"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteProduct(product.id, product.productCode)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav *ngIf="data.totalCount > 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mt-2 text-muted">
+        显示 {{ list.page * list.maxResultCount + 1 }} -
+        {{ Math.min((list.page + 1) * list.maxResultCount, data.totalCount) }} 条，共 {{ data.totalCount }} 条
+      </div>
+      <ngb-pagination
+        [collectionSize]="data.totalCount"
+        [page]="list.page + 1"
+        (pageChange)="onPageChange($event)"
+        [pageSize]="list.maxResultCount"
+        [maxSize]="10"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </nav>
+  </div>
+</div>

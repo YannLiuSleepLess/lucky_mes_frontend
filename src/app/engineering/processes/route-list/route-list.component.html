@@ -1,0 +1,72 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">工艺路线管理</div>
+    <button class="btn btn-primary" (click)="createRoute()">
+      <i class="fa fa-plus mr-1"></i>
+      添加工艺路线
+    </button>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>路线编码</th>
+          <th>路线名称</th>
+          <th>产品ID</th>
+          <th>版本</th>
+          <th>状态</th>
+          <th>步骤数</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let route of data.items">
+          <td>{{ route.routeCode }}</td>
+          <td>{{ route.routeName }}</td>
+          <td>{{ route.productId }}</td>
+          <td>{{ route.version || '-' }}</td>
+          <td>
+            <span class="badge" [ngClass]="getStatusClass(route.status)">
+              <ng-container *ngFor="let opt of processRouteStatusOptions">
+                <span *ngIf="opt.value === route.status">{{ '::Enum:ProcessRouteStatus.' + opt.key | abpLocalization }}</span>
+              </ng-container>
+            </span>
+          </td>
+          <td>{{ route.steps?.length || 0 }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary mr-1" (click)="editRoute(route.id)">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-success mr-1"
+              *ngIf="route.status === 1"
+              (click)="publishRoute(route.id, route.routeCode)"
+            >
+              <i class="fa fa-upload"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteRoute(route.id, route.routeCode)">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav *ngIf="data.totalCount > 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mt-2 text-muted">
+        显示 {{ list.page * list.maxResultCount + 1 }} -
+        {{ Math.min((list.page + 1) * list.maxResultCount, data.totalCount) }} 条，共 {{ data.totalCount }} 条
+      </div>
+      <ngb-pagination
+        [collectionSize]="data.totalCount"
+        [page]="list.page + 1"
+        (pageChange)="onPageChange($event)"
+        [pageSize]="list.maxResultCount"
+        [maxSize]="10"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </nav>
+  </div>
+</div>

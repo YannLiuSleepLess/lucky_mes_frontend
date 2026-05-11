@@ -1,0 +1,115 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ isEditing ? '编辑工程变更' : '创建工程变更' }}</h5>
+  <button type="button" class="close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="ecnNo">变更单号</label>
+          <input
+            type="text"
+            id="ecnNo"
+            class="form-control"
+            formControlName="ecnNo"
+            [readonly]="isEditing"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="title">标题</label>
+          <input type="text" id="title" class="form-control" formControlName="title" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="type">变更类型</label>
+          <select id="type" class="form-control" formControlName="type">
+            <option *ngFor="let t of changeTypeOptions" [ngValue]="t.value">{{ t.key }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="priority">优先级</label>
+          <select id="priority" class="form-control" formControlName="priority">
+            <option *ngFor="let p of priorityOptions" [ngValue]="p.value">{{ p.key }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="description">描述</label>
+          <textarea id="description" class="form-control" formControlName="description" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-header">影响范围</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="affectedProductIds">受影响产品ID（多个用逗号分隔）</label>
+              <input
+                type="text"
+                id="affectedProductIds"
+                class="form-control"
+                formControlName="affectedProductIds"
+                placeholder="product-id-1, product-id-2"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="affectedBomVersionIds">受影响BOM版本ID（多个用逗号分隔）</label>
+              <input
+                type="text"
+                id="affectedBomVersionIds"
+                class="form-control"
+                formControlName="affectedBomVersionIds"
+                placeholder="bom-id-1, bom-id-2"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="affectedProcessRouteIds">受影响工艺路线ID（多个用逗号分隔）</label>
+              <input
+                type="text"
+                id="affectedProcessRouteIds"
+                class="form-control"
+                formControlName="affectedProcessRouteIds"
+                placeholder="route-id-1, route-id-2"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer mt-3">
+      <button type="button" class="btn btn-secondary" (click)="close()">取消</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+        <i *ngIf="isSubmitting" class="fa fa-spinner fa-spin mr-1"></i>
+        {{ isSubmitting ? '保存中...' : '保存' }}
+      </button>
+    </div>
+  </form>
+</div>

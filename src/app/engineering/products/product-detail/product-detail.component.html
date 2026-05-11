@@ -1,0 +1,245 @@
+<div class="card">
+  <div class="card-header">
+    <button class="btn btn-secondary mr-2" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
+    <h4 class="card-title">{{ product?.productCode }} - {{ product?.productName }}</h4>
+  </div>
+
+  <div class="card-body">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="activeTab === 'basic'" (click)="activeTab = 'basic'">
+          基本信息
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="activeTab === 'bom'" (click)="activeTab = 'bom'">
+          BOM管理
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-4">
+      <div class="tab-pane" [class.active]="activeTab === 'basic'">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">基本信息</div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">产品编码</label>
+                  <div class="col-sm-8">{{ product?.productCode }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">产品名称</label>
+                  <div class="col-sm-8">{{ product?.productName }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">产品类型</label>
+                  <div class="col-sm-8">
+                    <ng-container *ngFor="let opt of productTypeOptions">
+                      <span *ngIf="opt.value === product?.type">{{ '::Enum:ProductType.' + opt.key | abpLocalization }}</span>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">材质</label>
+                  <div class="col-sm-8">{{ product?.material || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">单位</label>
+                  <div class="col-sm-8">{{ product?.unit || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">状态</label>
+                  <div class="col-sm-8">
+                    <span [class]="product?.isActive ? 'badge badge-success' : 'badge badge-danger'">
+                      {{ product?.isActive ? '启用' : '禁用' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">规格参数</div>
+              <div class="card-body">
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">长度</label>
+                  <div class="col-sm-8">{{ product?.specification?.length || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">宽度</label>
+                  <div class="col-sm-8">{{ product?.specification?.width || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">高度</label>
+                  <div class="col-sm-8">{{ product?.specification?.height || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">厚度</label>
+                  <div class="col-sm-8">{{ product?.specification?.thickness || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">重量</label>
+                  <div class="col-sm-8">{{ product?.specification?.weight || '-' }}</div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-4 col-form-label">自定义规格</label>
+                  <div class="col-sm-8">{{ product?.specification?.customSpecs || '-' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" [class.active]="activeTab === 'bom'">
+        <div class="mb-4">
+          <button class="btn btn-primary mr-2" (click)="createVersion()">
+            <i class="fa fa-plus"></i> 新增版本
+          </button>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-header">BOM版本列表</div>
+              <div class="card-body">
+                <div class="list-group">
+                  <button
+                    *ngFor="let version of product?.versions"
+                    class="list-group-item list-group-item-action"
+                    [class.active]="selectedVersion?.id === version.id"
+                    (click)="onVersionChange(version)"
+                  >
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <div>{{ version.versionNo }}</div>
+                        <div class="small text-muted">
+                          <ng-container *ngFor="let opt of bomTypeOptions">
+                            <span *ngIf="opt.value === version.bomType">{{ '::Enum:BomType.' + opt.key | abpLocalization }}</span>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <span
+                        [class]="version.isActive ? 'badge badge-success' : 'badge badge-secondary'"
+                      >
+                        {{ version.isActive ? '生效' : '历史' }}
+                      </span>
+                    </div>
+                    <div class="mt-2">
+                      <button
+                        class="btn btn-sm btn-outline-primary mr-1"
+                        (click)="editVersion(version); $event.stopPropagation()"
+                      >
+                        编辑
+                      </button>
+                      <button
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="deleteVersion(version.id); $event.stopPropagation()"
+                      >
+                        删除
+                      </button>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between">
+                <div>
+                  <h5>{{ selectedVersion?.versionNo }} -
+                    <ng-container *ngFor="let opt of bomTypeOptions">
+                      <span *ngIf="opt.value === selectedVersion?.bomType">{{ '::Enum:BomType.' + opt.key | abpLocalization }}</span>
+                    </ng-container>
+                  </h5>
+                  <p class="text-muted small">变更原因: {{ selectedVersion?.changeReason || '-' }}</p>
+                </div>
+                <div class="d-flex align-items-center">
+                  <button
+                    *ngIf="selectedVersion"
+                    class="btn btn-primary mr-2"
+                    (click)="addBomItem()"
+                  >
+                    <i class="fa fa-plus"></i> 添加BOM项
+                  </button>
+                  <button
+                    *ngIf="selectedVersion?.bomItems?.length"
+                    class="btn btn-success"
+                    (click)="saveBomItems()"
+                    [disabled]="isSavingBom"
+                  >
+                    <i *ngIf="isSavingBom" class="fa fa-spinner fa-spin mr-1"></i>
+                    <i *ngIf="!isSavingBom" class="fa fa-save mr-1"></i>
+                    {{ isSavingBom ? '保存中...' : '批量保存BOM' }}
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>层级</th>
+                      <th>组件名称</th>
+                      <th>用量</th>
+                      <th>损耗率</th>
+                      <th>单位</th>
+                      <th>排序</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-template #renderBomItems let-items>
+                      <tr *ngFor="let item of items">
+                        <td>{{ item.level }}</td>
+                        <td>{{ item.componentProductName }}</td>
+                        <td>
+                          <input
+                            type="number"
+                            class="form-control form-control-sm w-24"
+                            [(ngModel)]="item.quantity"
+                            step="0.0001"
+                          />
+                        </td>
+                        <td>{{ (item.scrapRate * 100).toFixed(2) }}%</td>
+                        <td>{{ item.unit }}</td>
+                        <td>{{ item.sequence }}</td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-primary mr-1"
+                            (click)="editBomItem(item)"
+                          >
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button
+                            class="btn btn-sm btn-danger"
+                            (click)="deleteBomItem(item.id)"
+                          >
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <ng-container *ngFor="let item of items">
+                        <tr *ngIf="getChildItems(item.id).length > 0">
+                          <ng-container *ngTemplateOutlet="renderBomItems; context: { $implicit: getChildItems(item.id) }"></ng-container>
+                        </tr>
+                      </ng-container>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="renderBomItems; context: { $implicit: getRootBomItems() }"></ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

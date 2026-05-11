@@ -1,0 +1,113 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ isEditing ? '编辑工艺路线' : '添加工艺路线' }}</h5>
+  <button type="button" class="close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="routeCode">路线编码</label>
+          <input
+            type="text"
+            id="routeCode"
+            class="form-control"
+            formControlName="routeCode"
+            [readonly]="isEditing"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="routeName">路线名称</label>
+          <input type="text" id="routeName" class="form-control" formControlName="routeName" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="productId">关联产品</label>
+          <input type="text" id="productId" class="form-control" formControlName="productId" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>工艺步骤</span>
+        <button type="button" class="btn btn-sm btn-primary" (click)="addStep()">
+          <i class="fa fa-plus mr-1"></i>添加步骤
+        </button>
+      </div>
+      <div class="card-body" formArrayName="steps">
+        <div
+          class="row mb-3"
+          *ngFor="let step of steps.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>步骤编号</label>
+              <input type="text" class="form-control" formControlName="stepNo" />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>步骤名称</label>
+              <input type="text" class="form-control" formControlName="stepName" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>标准时间(分钟)</label>
+              <input type="number" class="form-control" formControlName="standardTime" />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>关键工序</label>
+              <div class="form-check mt-2">
+                <input type="checkbox" class="form-check-input" formControlName="isKeyProcess" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>说明</label>
+              <input type="text" class="form-control" formControlName="description" />
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label>&nbsp;</label>
+              <button
+                type="button"
+                class="btn btn-sm btn-danger btn-block"
+                (click)="removeStep(i)"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="steps.length === 0" class="text-center text-muted py-3">
+          暂无工艺步骤，请点击"添加步骤"按钮添加工序
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">取消</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+      <i *ngIf="isSubmitting" class="fa fa-spinner fa-spin mr-1"></i>
+      {{ isSubmitting ? '保存中...' : '保存' }}
+    </button>
+  </div>
+</form>
