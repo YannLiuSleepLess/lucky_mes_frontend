@@ -32,6 +32,7 @@ chrome-profiler-events*.json
 
 # misc
 /.angular/cache
+.trae/
 # TypeScript incremental / project references (if enabled)
 *.tsbuildinfo
 # ESLint cache (eslint --cache)
