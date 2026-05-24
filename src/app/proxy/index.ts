@@ -1,3 +1,4 @@
+import * as BasicData from './basic-data';
 import * as Engineering from './engineering';
 import * as Enums from './enums';
-export { Engineering, Enums };
+export { BasicData, Engineering, Enums };

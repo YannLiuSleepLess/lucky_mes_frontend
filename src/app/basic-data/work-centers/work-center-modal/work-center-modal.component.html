@@ -1,0 +1,111 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ isEditing ? '编辑工作中心' : '添加工作中心' }}</h5>
+  <button type="button" class="close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="workCenterCode">工作中心编码</label>
+          <input
+            type="text"
+            id="workCenterCode"
+            class="form-control"
+            formControlName="workCenterCode"
+            [readonly]="isEditing"
+          />
+          <span *ngIf="form.get('workCenterCode').invalid && form.get('workCenterCode').touched" class="text-danger">
+            工作中心编码是必填项
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="workCenterName">工作中心名称</label>
+          <input
+            type="text"
+            id="workCenterName"
+            class="form-control"
+            formControlName="workCenterName"
+          />
+          <span *ngIf="form.get('workCenterName').invalid && form.get('workCenterName').touched" class="text-danger">
+            工作中心名称是必填项
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="workshopId">所属车间</label>
+          <select id="workshopId" class="form-control" formControlName="workshopId">
+            <option value="">请选择车间</option>
+            <option *ngFor="let workshop of workshops" [value]="workshop.id">
+              {{ workshop.workshopName }}
+            </option>
+          </select>
+          <span *ngIf="form.get('workshopId').invalid && form.get('workshopId').touched" class="text-danger">
+            请选择所属车间
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="capacity">产能</label>
+          <input
+            type="number"
+            id="capacity"
+            class="form-control"
+            formControlName="capacity"
+            min="0"
+          />
+          <span *ngIf="form.get('capacity').invalid && form.get('capacity').touched" class="text-danger">
+            产能必须大于等于0
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="shiftCount">班次</label>
+          <input
+            type="number"
+            id="shiftCount"
+            class="form-control"
+            formControlName="shiftCount"
+            min="1"
+            max="10"
+          />
+          <span *ngIf="form.get('shiftCount').invalid && form.get('shiftCount').touched" class="text-danger">
+            班次必须在1-10之间
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="isEditing">
+        <div class="form-group">
+          <label class="d-block">
+            <input type="checkbox" formControlName="isActive" />
+            启用状态
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      取消
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+      <i *ngIf="isSubmitting" class="fa fa-spinner fa-spin mr-1"></i>
+      {{ isSubmitting ? '保存中...' : '保存' }}
+    </button>
+  </div>
+</form>

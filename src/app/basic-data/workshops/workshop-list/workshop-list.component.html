@@ -1,0 +1,71 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">车间管理</div>
+    <button class="btn btn-primary" (click)="createWorkshop()">
+      <i class="fa fa-plus mr-1"></i>
+      添加车间
+    </button>
+  </div>
+
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>车间编码</th>
+          <th>车间名称</th>
+          <th>位置</th>
+          <th>负责人</th>
+          <th>状态</th>
+          <th>创建时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workshop of data.items">
+          <td>{{ workshop.workshopCode }}</td>
+          <td>{{ workshop.workshopName }}</td>
+          <td>{{ workshop.location || '-' }}</td>
+          <td>{{ workshop.managerId || '-' }}</td>
+          <td>
+            <span
+              [class]="workshop.isActive ? 'badge badge-success' : 'badge badge-danger'"
+            >
+              {{ workshop.isActive ? '启用' : '禁用' }}
+            </span>
+          </td>
+          <td>{{ workshop.creationTime | date: 'yyyy-MM-dd HH:mm' }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-primary mr-1"
+              (click)="editWorkshop(workshop.id)"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteWorkshop(workshop.id, workshop.workshopCode)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav *ngIf="data.totalCount > 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mt-2 text-muted">
+        显示 {{ list.page * list.maxResultCount + 1 }} -
+        {{ Math.min((list.page + 1) * list.maxResultCount, data.totalCount) }} 条，共 {{ data.totalCount }} 条
+      </div>
+      <ngb-pagination
+        [collectionSize]="data.totalCount"
+        [page]="list.page + 1"
+        (pageChange)="onPageChange($event)"
+        [pageSize]="list.maxResultCount"
+        [maxSize]="10"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </nav>
+  </div>
+</div>

@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./engineering/engineering.module').then(m => m.EngineeringModule),
   },
   {
+    path: 'basicdata',
+    loadChildren: () => import('./basic-data/basic-data.module').then(m => m.BasicDataModule),
+  },
+  {
     path: 'identity',
     loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
   },

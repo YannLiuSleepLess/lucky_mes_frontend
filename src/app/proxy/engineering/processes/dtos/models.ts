@@ -29,6 +29,7 @@ export interface ProcessStepDto {
   id?: string;
   stepNo?: string;
   stepName?: string;
+  sequence: number;
   standardTime: number;
   isKeyProcess: boolean;
   description?: string;

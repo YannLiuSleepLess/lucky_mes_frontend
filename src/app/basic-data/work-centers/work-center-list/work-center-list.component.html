@@ -1,0 +1,88 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">工作中心管理</div>
+    <button class="btn btn-primary" (click)="createWorkCenter()">
+      <i class="fa fa-plus mr-1"></i>
+      添加工作中心
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="workshopFilter">筛选车间</label>
+        <select
+          id="workshopFilter"
+          class="form-control"
+          [(ngModel)]="selectedWorkshopId"
+          (change)="filterByWorkshop()"
+        >
+          <option value="">全部车间</option>
+          <option *ngFor="let workshop of workshops" [value]="workshop.id">
+            {{ workshop.workshopName }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>工作中心编码</th>
+          <th>工作中心名称</th>
+          <th>所属车间</th>
+          <th>产能</th>
+          <th>班次</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workCenter of data.items">
+          <td>{{ workCenter.workCenterCode }}</td>
+          <td>{{ workCenter.workCenterName }}</td>
+          <td>{{ workCenter.workshopName || '-' }}</td>
+          <td>{{ workCenter.capacity }}</td>
+          <td>{{ workCenter.shiftCount }}</td>
+          <td>
+            <span
+              [class]="workCenter.isActive ? 'badge badge-success' : 'badge badge-danger'"
+            >
+              {{ workCenter.isActive ? '启用' : '禁用' }}
+            </span>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-primary mr-1"
+              (click)="editWorkCenter(workCenter.id)"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteWorkCenter(workCenter.id, workCenter.workCenterCode)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <nav *ngIf="data.totalCount > 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mt-2 text-muted">
+        显示 {{ list.page * list.maxResultCount + 1 }} -
+        {{ Math.min((list.page + 1) * list.maxResultCount, data.totalCount) }} 条，共 {{ data.totalCount }} 条
+      </div>
+      <ngb-pagination
+        [collectionSize]="data.totalCount"
+        [page]="list.page + 1"
+        (pageChange)="onPageChange($event)"
+        [pageSize]="list.maxResultCount"
+        [maxSize]="10"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </nav>
+  </div>
+</div>

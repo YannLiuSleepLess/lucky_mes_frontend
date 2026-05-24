@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ isEditing ? '编辑车间' : '添加车间' }}</h5>
+  <button type="button" class="close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="workshopCode">车间编码</label>
+          <input
+            type="text"
+            id="workshopCode"
+            class="form-control"
+            formControlName="workshopCode"
+            [readonly]="isEditing"
+          />
+          <span *ngIf="form.get('workshopCode').invalid && form.get('workshopCode').touched" class="text-danger">
+            车间编码是必填项
+          </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="workshopName">车间名称</label>
+          <input
+            type="text"
+            id="workshopName"
+            class="form-control"
+            formControlName="workshopName"
+          />
+          <span *ngIf="form.get('workshopName').invalid && form.get('workshopName').touched" class="text-danger">
+            车间名称是必填项
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="location">位置</label>
+          <input type="text" id="location" class="form-control" formControlName="location" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="managerId">负责人</label>
+          <input type="text" id="managerId" class="form-control" formControlName="managerId" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="isEditing">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="d-block">
+            <input type="checkbox" formControlName="isActive" />
+            启用状态
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      取消
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+      <i *ngIf="isSubmitting" class="fa fa-spinner fa-spin mr-1"></i>
+      {{ isSubmitting ? '保存中...' : '保存' }}
+    </button>
+  </div>
+</form>
