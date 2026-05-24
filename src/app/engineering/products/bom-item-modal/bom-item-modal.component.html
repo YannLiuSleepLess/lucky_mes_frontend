@@ -10,17 +10,17 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
+          <label for="bomCode">BOM编码</label>
+          <input type="text" id="bomCode" class="form-control" formControlName="bomCode" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
           <label for="componentProductId">组件产品ID</label>
           <input type="text" id="componentProductId" class="form-control" formControlName="componentProductId" />
           <span *ngIf="form.get('componentProductId').invalid && form.get('componentProductId').touched" class="text-danger">
             组件产品ID是必填项
           </span>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="componentProductCode">组件编码</label>
-          <input type="text" id="componentProductCode" class="form-control" formControlName="componentProductCode" />
         </div>
       </div>
     </div>

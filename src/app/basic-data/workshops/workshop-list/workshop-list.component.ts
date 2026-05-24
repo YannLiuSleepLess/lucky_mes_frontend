@@ -51,4 +51,8 @@ export class WorkshopListComponent implements OnInit {
   onPageChange(page: number): void {
     this.list.page = page - 1;
   }
+
+  trackByWorkshopId(index: number, workshop: WorkshopDto): string {
+    return workshop.id || index.toString();
+  }
 }

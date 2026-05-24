@@ -127,4 +127,8 @@ export class RouteModalComponent implements OnInit {
   close() {
     this.activeModal.dismiss();
   }
+
+  trackByIndex(index: number): number {
+    return index.valueOf();
+  }
 }

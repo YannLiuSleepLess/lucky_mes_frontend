@@ -77,22 +77,50 @@ export class ChangeListComponent implements OnInit {
 
   getStatusClass(status: number): string {
     const classMap: Record<number, string> = {
-      [EcnStatus.Draft]: 'badge-secondary',
-      [EcnStatus.PendingReview]: 'badge-warning',
-      [EcnStatus.Approved]: 'badge-success',
-      [EcnStatus.Executed]: 'badge-info',
-      [EcnStatus.Cancelled]: 'badge-dark',
+      [EcnStatus.Draft]: 'bg-secondary',
+      [EcnStatus.PendingReview]: 'bg-warning',
+      [EcnStatus.Approved]: 'bg-success',
+      [EcnStatus.Executed]: 'bg-info',
+      [EcnStatus.Cancelled]: 'bg-dark',
     };
-    return classMap[status] || 'badge-secondary';
+    return classMap[status] || 'bg-secondary';
   }
 
   getPriorityClass(priority: number): string {
     const classMap: Record<number, string> = {
-      [Priority.Low]: 'badge-light',
-      [Priority.Medium]: 'badge-info',
-      [Priority.High]: 'badge-warning',
-      [Priority.Urgent]: 'badge-danger',
+      [Priority.Low]: 'bg-light text-dark',
+      [Priority.Medium]: 'bg-info',
+      [Priority.High]: 'bg-warning',
+      [Priority.Urgent]: 'bg-danger',
     };
-    return classMap[priority] || 'badge-light';
+    return classMap[priority] || 'bg-light';
+  }
+
+  trackByChangeId(index: number, change: EngineeringChangeDto): string {
+    return change.id || index.toString();
+  }
+
+  trackByOptionValue(index: number, option: any): string {
+    if (!option) return `opt-undefined-${index}`;
+    
+    const value = option.value;
+    const key = option.key;
+    
+    if (value === null || value === undefined) {
+      return key !== null && key !== undefined 
+        ? `opt-key-${key}` 
+        : `opt-${index}`;
+    }
+    
+    if (typeof value === 'object') {
+      const valueStr = JSON.stringify(value);
+      return key !== null && key !== undefined 
+        ? `opt-obj-${key}-${valueStr}` 
+        : `opt-obj-${index}-${valueStr}`;
+    }
+    
+    return key !== null && key !== undefined 
+      ? `opt-${key}` 
+      : `opt-${value}`;
   }
 }

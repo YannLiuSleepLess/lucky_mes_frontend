@@ -21,14 +21,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let workshop of data.items">
+        <tr *ngFor="let workshop of data.items; trackBy: trackByWorkshopId">
           <td>{{ workshop.workshopCode }}</td>
           <td>{{ workshop.workshopName }}</td>
           <td>{{ workshop.location || '-' }}</td>
           <td>{{ workshop.managerId || '-' }}</td>
           <td>
             <span
-              [class]="workshop.isActive ? 'badge badge-success' : 'badge badge-danger'"
+              [class]="workshop.isActive ? 'badge bg-success' : 'badge bg-danger'"
             >
               {{ workshop.isActive ? '启用' : '禁用' }}
             </span>

@@ -22,6 +22,7 @@ export interface ProcessRouteDto {
   productId?: string;
   version?: string;
   status: ProcessRouteStatus;
+  stepCount: number;
   steps: ProcessStepDto[];
 }
 

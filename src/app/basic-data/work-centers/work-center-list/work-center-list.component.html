@@ -18,7 +18,7 @@
           (change)="filterByWorkshop()"
         >
           <option value="">全部车间</option>
-          <option *ngFor="let workshop of workshops" [value]="workshop.id">
+          <option *ngFor="let workshop of workshops; trackBy: trackByWorkshopId" [value]="workshop.id">
             {{ workshop.workshopName }}
           </option>
         </select>
@@ -38,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let workCenter of data.items">
+        <tr *ngFor="let workCenter of data.items; trackBy: trackByWorkCenterId">
           <td>{{ workCenter.workCenterCode }}</td>
           <td>{{ workCenter.workCenterName }}</td>
           <td>{{ workCenter.workshopName || '-' }}</td>
@@ -46,7 +46,7 @@
           <td>{{ workCenter.shiftCount }}</td>
           <td>
             <span
-              [class]="workCenter.isActive ? 'badge badge-success' : 'badge badge-danger'"
+              [class]="workCenter.isActive ? 'badge bg-success' : 'badge bg-danger'"
             >
               {{ workCenter.isActive ? '启用' : '禁用' }}
             </span>

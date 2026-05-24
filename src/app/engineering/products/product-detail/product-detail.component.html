@@ -38,7 +38,7 @@
                 <div class="row mb-3">
                   <label class="col-sm-4 col-form-label">产品类型</label>
                   <div class="col-sm-8">
-                    <ng-container *ngFor="let opt of productTypeOptions">
+                    <ng-container *ngFor="let opt of productTypeOptions; trackBy: trackByOptionValue">
                       <span *ngIf="opt.value === product?.type">{{ '::Enum:ProductType.' + opt.key | abpLocalization }}</span>
                     </ng-container>
                   </div>
@@ -54,7 +54,7 @@
                 <div class="row mb-3">
                   <label class="col-sm-4 col-form-label">状态</label>
                   <div class="col-sm-8">
-                    <span [class]="product?.isActive ? 'badge badge-success' : 'badge badge-danger'">
+                    <span [class]="product?.isActive ? 'badge bg-success' : 'badge bg-danger'">
                       {{ product?.isActive ? '启用' : '禁用' }}
                     </span>
                   </div>
@@ -111,7 +111,7 @@
               <div class="card-body">
                 <div class="list-group">
                   <button
-                    *ngFor="let version of product?.versions"
+                    *ngFor="let version of product?.versions; trackBy: trackByVersionId"
                     class="list-group-item list-group-item-action"
                     [class.active]="selectedVersion?.id === version.id"
                     (click)="onVersionChange(version)"
@@ -120,13 +120,13 @@
                       <div>
                         <div>{{ version.versionNo }}</div>
                         <div class="small text-muted">
-                          <ng-container *ngFor="let opt of bomTypeOptions">
+                          <ng-container *ngFor="let opt of bomTypeOptions; trackBy: trackByOptionValue">
                             <span *ngIf="opt.value === version.bomType">{{ '::Enum:BomType.' + opt.key | abpLocalization }}</span>
                           </ng-container>
                         </div>
                       </div>
                       <span
-                        [class]="version.isActive ? 'badge badge-success' : 'badge badge-secondary'"
+                        [class]="version.isActive ? 'badge bg-success' : 'badge bg-secondary'"
                       >
                         {{ version.isActive ? '生效' : '历史' }}
                       </span>
@@ -156,10 +156,10 @@
               <div class="card-header d-flex justify-content-between">
                 <div>
                   <h5>{{ selectedVersion?.versionNo }} -
-                    <ng-container *ngFor="let opt of bomTypeOptions">
-                      <span *ngIf="opt.value === selectedVersion?.bomType">{{ '::Enum:BomType.' + opt.key | abpLocalization }}</span>
-                    </ng-container>
-                  </h5>
+                        <ng-container *ngFor="let opt of bomTypeOptions; trackBy: trackByOptionValue">
+                          <span *ngIf="opt.value === selectedVersion?.bomType">{{ '::Enum:BomType.' + opt.key | abpLocalization }}</span>
+                        </ng-container>
+                      </h5>
                   <p class="text-muted small">变更原因: {{ selectedVersion?.changeReason || '-' }}</p>
                 </div>
                 <div class="d-flex align-items-center">
@@ -186,6 +186,7 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
+                      <th>BOM编码</th>
                       <th>层级</th>
                       <th>组件名称</th>
                       <th>用量</th>
@@ -197,7 +198,8 @@
                   </thead>
                   <tbody>
                     <ng-template #renderBomItems let-items>
-                      <tr *ngFor="let item of items">
+                      <tr *ngFor="let item of items; trackBy: trackByBomItemId">
+                        <td>{{ item.bomCode || '-' }}</td>
                         <td>{{ item.level }}</td>
                         <td>{{ item.componentProductName }}</td>
                         <td>
@@ -226,7 +228,7 @@
                           </button>
                         </td>
                       </tr>
-                      <ng-container *ngFor="let item of items">
+                      <ng-container *ngFor="let item of items; trackBy: trackByBomItemId">
                         <tr *ngIf="getChildItems(item.id).length > 0">
                           <ng-container *ngTemplateOutlet="renderBomItems; context: { $implicit: getChildItems(item.id) }"></ng-container>
                         </tr>

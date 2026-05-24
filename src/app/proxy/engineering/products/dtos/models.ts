@@ -4,6 +4,7 @@ import type { BomType } from '../../../enums/bom-type.enum';
 
 export interface BomItemDto {
   id?: string;
+  bomCode?: string;
   parentItemId?: string;
   componentProductId?: string;
   componentProductName?: string;
@@ -15,6 +16,7 @@ export interface BomItemDto {
 }
 
 export interface CreateBomItemRequest {
+  bomCode?: string;
   parentItemId?: string;
   componentProductId?: string;
   quantity: number;
@@ -69,6 +71,7 @@ export interface ReplaceBomItemsRequest {
 }
 
 export interface UpdateBomItemRequest {
+  bomCode?: string;
   componentProductId?: string;
   quantity: number;
   scrapRate: number;

@@ -152,4 +152,36 @@ export class ProductDetailComponent implements OnInit {
     if (!this.selectedVersion) return [];
     return this.selectedVersion.bomItems?.filter(item => item.parentItemId === parentId) || [];
   }
+
+  trackByBomItemId(index: number, item: BomItemDto): string {
+    return item.id || index.toString();
+  }
+
+  trackByVersionId(index: number, version: ProductVersionDto): string {
+    return version.id || index.toString();
+  }
+
+  trackByOptionValue(index: number, option: any): string {
+    if (!option) return `opt-undefined-${index}`;
+    
+    const value = option.value;
+    const key = option.key;
+    
+    if (value === null || value === undefined) {
+      return key !== null && key !== undefined 
+        ? `opt-key-${key}` 
+        : `opt-${index}`;
+    }
+    
+    if (typeof value === 'object') {
+      const valueStr = JSON.stringify(value);
+      return key !== null && key !== undefined 
+        ? `opt-obj-${key}-${valueStr}` 
+        : `opt-obj-${index}-${valueStr}`;
+    }
+    
+    return key !== null && key !== undefined 
+      ? `opt-${key}` 
+      : `opt-${value}`;
+  }
 }

@@ -22,24 +22,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of data.items">
+        <tr *ngFor="let product of data.items; trackBy: trackByProductId">
           <td>{{ product.productCode }}</td>
           <td>{{ product.productName }}</td>
           <td>
-            <ng-container *ngFor="let opt of productTypeOptions">
+            <ng-container *ngFor="let opt of productTypeOptions; trackBy: trackByOptionValue">
               <span *ngIf="opt.value === product.type">{{ '::Enum:ProductType.' + opt.key | abpLocalization }}</span>
             </ng-container>
           </td>
           <td>
-            <span *ngIf="product.specification?.length">长: {{ product.specification.length }} </span>
-            <span *ngIf="product.specification?.width">宽: {{ product.specification.width }} </span>
-            <span *ngIf="product.specification?.height">高: {{ product.specification.height }}</span>
+            <span *ngIf="product.specification?.length !== null">长: {{ product.specification.length }} </span>
+            <span *ngIf="product.specification?.width !== null">宽: {{ product.specification.width }} </span>
+            <span *ngIf="product.specification?.height !== null">高: {{ product.specification.height }}</span>
           </td>
           <td>{{ product.material || '-' }}</td>
           <td>{{ product.unit || '-' }}</td>
           <td>
             <span
-              [class]="product.isActive ? 'badge badge-success' : 'badge badge-danger'"
+              [class]="product.isActive ? 'badge bg-success' : 'badge bg-danger'"
             >
               {{ product.isActive ? '启用' : '禁用' }}
             </span>

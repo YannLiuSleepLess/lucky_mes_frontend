@@ -27,6 +27,7 @@ export class BomItemModalComponent implements OnInit {
     this.buildForm();
     if (this.item) {
       this.form.patchValue({
+        bomCode: this.item.bomCode,
         componentProductId: this.item.componentProductId,
         quantity: this.item.quantity,
         scrapRate: this.item.scrapRate,
@@ -39,6 +40,7 @@ export class BomItemModalComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
+      bomCode: [''],
       componentProductId: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.min(0.0001)]],
       scrapRate: [0, Validators.min(0)],
@@ -53,6 +55,7 @@ export class BomItemModalComponent implements OnInit {
 
     this.isSubmitting = true;
     const request = {
+      bomCode: this.form.value.bomCode || null,
       componentProductId: this.form.value.componentProductId,
       quantity: this.form.value.quantity,
       scrapRate: this.form.value.scrapRate,

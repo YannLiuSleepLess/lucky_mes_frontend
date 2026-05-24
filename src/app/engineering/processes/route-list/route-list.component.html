@@ -21,19 +21,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let route of data.items">
+        <tr *ngFor="let route of data.items; trackBy: trackByRouteId">
           <td>{{ route.routeCode }}</td>
           <td>{{ route.routeName }}</td>
           <td>{{ route.productId }}</td>
           <td>{{ route.version || '-' }}</td>
           <td>
-            <span class="badge" [ngClass]="getStatusClass(route.status)">
-              <ng-container *ngFor="let opt of processRouteStatusOptions">
-                <span *ngIf="opt.value === route.status">{{ '::Enum:ProcessRouteStatus.' + opt.key | abpLocalization }}</span>
-              </ng-container>
-            </span>
+            <ng-container *ngFor="let opt of processRouteStatusOptions; trackBy: trackByOptionValue">
+              <span *ngIf="opt.value === route.status" class="badge" [ngClass]="getStatusClass(route.status)">{{ '::Enum:ProcessRouteStatus.' + opt.key | abpLocalization }}</span>
+            </ng-container>
           </td>
-          <td>{{ route.steps?.length || 0 }}</td>
+          <td>{{ route.stepCount }}</td>
           <td>
             <button class="btn btn-sm btn-primary mr-1" (click)="editRoute(route.id)">
               <i class="fa fa-edit"></i>

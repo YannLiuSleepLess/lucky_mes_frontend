@@ -65,10 +65,41 @@ export class RouteListComponent implements OnInit {
 
   getStatusClass(status: number): string {
     const classMap: Record<number, string> = {
-      [ProcessRouteStatus.Draft]: 'badge-secondary',
-      [ProcessRouteStatus.Published]: 'badge-success',
-      [ProcessRouteStatus.Archived]: 'badge-info',
+      [ProcessRouteStatus.Draft]: 'bg-secondary',
+      [ProcessRouteStatus.Published]: 'bg-success',
+      [ProcessRouteStatus.Archived]: 'bg-info',
     };
-    return classMap[status] || 'badge-secondary';
+    return classMap[status] || 'bg-secondary';
+  }
+
+  trackByRouteId(index: number, route: ProcessRouteDto): string {
+    const id = route.id;
+    if (!id) return `route-${index}`;
+    if (typeof id === 'object') return `route-obj-${JSON.stringify(id)}-${index}`;
+    return `route-${id}`;
+  }
+
+  trackByOptionValue(index: number, option: any): string {
+    if (!option) return `opt-undefined-${index}`;
+    
+    const value = option.value;
+    const key = option.key;
+    
+    if (value === null || value === undefined) {
+      return key !== null && key !== undefined 
+        ? `opt-key-${key}` 
+        : `opt-${index}`;
+    }
+    
+    if (typeof value === 'object') {
+      const valueStr = JSON.stringify(value);
+      return key !== null && key !== undefined 
+        ? `opt-obj-${key}-${valueStr}` 
+        : `opt-obj-${index}-${valueStr}`;
+    }
+    
+    return key !== null && key !== undefined 
+      ? `opt-${key}` 
+      : `opt-${value}`;
   }
 }

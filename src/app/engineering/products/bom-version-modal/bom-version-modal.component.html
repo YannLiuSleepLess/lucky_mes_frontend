@@ -21,7 +21,7 @@
         <div class="form-group">
           <label for="bomType">BOM类型</label>
           <select id="bomType" class="form-control" formControlName="bomType">
-            <option *ngFor="let type of bomTypeOptions" [ngValue]="type.value">{{ type.key }}</option>
+            <option *ngFor="let type of bomTypeOptions; trackBy: trackByOptionValue" [ngValue]="type.value">{{ type.key }}</option>
           </select>
         </div>
       </div>

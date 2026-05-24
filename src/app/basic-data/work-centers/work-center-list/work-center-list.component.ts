@@ -77,4 +77,12 @@ export class WorkCenterListComponent implements OnInit {
   onPageChange(page: number): void {
     this.list.page = page - 1;
   }
+
+  trackByWorkCenterId(index: number, workCenter: WorkCenterDto): string {
+    return workCenter.id || index.toString();
+  }
+
+  trackByWorkshopId(index: number, workshop: WorkshopDto): string {
+    return workshop.id || index.toString();
+  }
 }

@@ -45,7 +45,7 @@
           <label for="workshopId">所属车间</label>
           <select id="workshopId" class="form-control" formControlName="workshopId">
             <option value="">请选择车间</option>
-            <option *ngFor="let workshop of workshops" [value]="workshop.id">
+            <option *ngFor="let workshop of workshops; trackBy: trackByWorkshopId" [value]="workshop.id">
               {{ workshop.workshopName }}
             </option>
           </select>

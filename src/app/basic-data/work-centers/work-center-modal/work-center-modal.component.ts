@@ -115,4 +115,8 @@ export class WorkCenterModalComponent implements OnInit {
   close() {
     this.activeModal.dismiss();
   }
+
+  trackByWorkshopId(index: number, workshop: WorkshopDto): string {
+    return workshop.id || index.toString();
+  }
 }

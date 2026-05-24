@@ -7362,6 +7362,18 @@
           "regex": null
         },
         {
+          "name": "StepCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "Steps",
           "jsonName": null,
           "type": "[AbpDemo.Engineering.Processes.Dtos.ProcessStepDto]",
@@ -7614,6 +7626,18 @@
           "regex": null
         },
         {
+          "name": "BomCode",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "ParentItemId",
           "jsonName": null,
           "type": "System.Guid?",
@@ -7718,6 +7742,18 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "BomCode",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "ParentItemId",
           "jsonName": null,
@@ -8204,6 +8240,18 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": [
+        {
+          "name": "BomCode",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
         {
           "name": "ComponentProductId",
           "jsonName": null,

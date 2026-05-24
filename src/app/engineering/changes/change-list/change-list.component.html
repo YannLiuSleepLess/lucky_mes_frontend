@@ -21,24 +21,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let change of data.items">
+        <tr *ngFor="let change of data.items; trackBy: trackByChangeId">
           <td>{{ change.ecnNo }}</td>
           <td>{{ change.title }}</td>
           <td>
-            <ng-container *ngFor="let opt of changeTypeOptions">
+            <ng-container *ngFor="let opt of changeTypeOptions; trackBy: trackByOptionValue">
               <span *ngIf="opt.value === change.type">{{ '::Enum:ChangeType.' + opt.key | abpLocalization }}</span>
             </ng-container>
           </td>
           <td>
             <span class="badge" [ngClass]="getPriorityClass(change.priority)">
-              <ng-container *ngFor="let opt of priorityOptions">
+              <ng-container *ngFor="let opt of priorityOptions; trackBy: trackByOptionValue">
                 <span *ngIf="opt.value === change.priority">{{ '::Enum:Priority.' + opt.key | abpLocalization }}</span>
               </ng-container>
             </span>
           </td>
           <td>
             <span class="badge" [ngClass]="getStatusClass(change.status)">
-              <ng-container *ngFor="let opt of ecnStatusOptions">
+              <ng-container *ngFor="let opt of ecnStatusOptions; trackBy: trackByOptionValue">
                 <span *ngIf="opt.value === change.status">{{ '::Enum:EcnStatus.' + opt.key | abpLocalization }}</span>
               </ng-container>
             </span>
